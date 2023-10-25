@@ -1,2 +1,4 @@
-# breathing-timer
-A simple breathing timer web app
+# Breathing Timer
+A simple breathing timer web app. Mobile friendly.
+
+![app](app.png)

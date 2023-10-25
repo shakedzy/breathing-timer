@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathing Timer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <h1>Breathing Timer</h1>
+    <div class="instructions">
+        <label for="inTime">Breathe In (sec): </label>
+        <input type="number" id="inTime" value="5.5"><br>
+        
+        <input type="checkbox" id="holdCheck">
+        <label for="holdTime">Hold (sec): </label>
+        <input type="number" id="holdTime" value="0">
+        <br>
+        
+        <label for="outTime">Breathe Out (sec): </label>
+        <input type="number" id="outTime" value="5.5"><br>
+        
+        <input type="checkbox" id="pauseCheck">
+        <label for="pauseTime">Pause (sec): </label>
+        <input type="number" id="pauseTime" value="0">
+        <br><br>
+        <input type="checkbox" id="beepOnPhaseChange" value="beep" checked>
+        <label for="beepOnPhaseChange">Beep on phase change</label><br>
+    </div>
+
+    <br>
+    <button id="startBtn">Start</button>
+    <p id="avgCycles">Average Cycles per Minute: 0</p>
+
+    <div class="progress-circle">
+        <svg width="170" height="170" viewBox="0 0 170 170">
+            <circle class="circle-bg" cx="85" cy="85" r="75"></circle>
+            <circle class="circle-progress" cx="85" cy="85" r="75" stroke-dasharray="471" stroke-dashoffset="471"></circle>
+        </svg>
+        <div class="phase-name"></div>
+        <div class="elapsed-time" id="elapsedTime">0.0</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

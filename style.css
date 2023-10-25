@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #f6f6f6;
+}
+
+.instructions {
+    margin: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
+
+.instructions input {
+    padding: 5px 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.progress-circle {
+    margin: 20px auto;
+    position: relative;
+}
+
+.circle-bg, .circle-progress {
+    fill: none;
+    stroke-width: 10;
+}
+
+.circle-bg {
+    stroke: lightgray;
+}
+
+.circle-progress {
+    stroke: #007BFF;
+    transition: stroke-dashoffset 0.3s linear;
+}
+
+
+.phase-name, .elapsed-time {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+}
+
+.phase-name {
+    top: 55%;
+}
+
+.elapsed-time {
+    top: 40%;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+input {
+    width: 3em;
+}
