@@ -4,20 +4,50 @@ let elapsedMillis = 0;
 let interval;
 let isRunning = false;
 let maxDashArray = 471;  // This is 2 * pi * 75 (circle's radius)
+let audioContext;
+let currentOscillator;
+let currentGain;
+
+function stopCurrentTone() {
+  if (currentOscillator) {
+    currentGain.gain.cancelScheduledValues(audioContext.currentTime);
+    currentGain.gain.setValueAtTime(0, audioContext.currentTime);
+    currentOscillator.stop(audioContext.currentTime);
+    currentOscillator = null;
+    currentGain = null;
+  }
+}
+
+function playTone(frequency, duration) {
+  // Stop any previously playing tone
+  stopCurrentTone();
+
+  // Create new AudioContext if it doesn't exist or if it was closed
+  if (!audioContext || audioContext.state === 'closed') {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  currentOscillator = audioContext.createOscillator();
+  currentOscillator.type = 'sine';
+  currentOscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+  currentGain = audioContext.createGain();
+  currentGain.gain.setValueAtTime(0, audioContext.currentTime);
+  currentGain.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.01);
+  currentGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration);
+
+  currentOscillator.connect(currentGain);
+  currentGain.connect(audioContext.destination);
+
+  currentOscillator.start(audioContext.currentTime);
+  // Ensure the oscillator stops after the specified duration
+  currentOscillator.stop(audioContext.currentTime + duration);
+}
 
 function formatTime(millis) {
     let seconds = Math.floor(millis / 1000);
     let deciseconds = Math.floor((millis % 1000) / 100);
     return seconds + "." + deciseconds;
-}
-
-function beep() {
-    let context = new AudioContext();
-    let o = context.createOscillator();
-    o.type = "sine";
-    o.connect(context.destination);
-    o.start();
-    o.stop(context.currentTime + 0.1);
 }
 
 function getNextPhase() {
@@ -37,7 +67,13 @@ function updatePhaseDisplay(phase) {
     let phaseDiv = document.querySelector(".phase-name");
     phaseDiv.textContent = phase.replace(/^\w/, (c) => c.toUpperCase());
     if (document.getElementById("beepOnPhaseChange").checked) {
-        beep();
+        let phaseFrequency = {
+            "in": 293.66,
+            "hold": 329.63,
+            "out": 392,
+            "pause": 440
+        }[phase];
+        playTone(phaseFrequency, 2);
     }
 }
 
@@ -105,6 +141,74 @@ function startBreathing() {
     document.getElementById("startBtn").textContent = "Stop";
     isRunning = true;
 }
+
+function setPerfectBreathing() {
+    // Set inhale and exhale times to 5.5 seconds
+    document.getElementById('inTime').value = 5.5;
+    document.getElementById('outTime').value = 5.5;
+
+    // Set hold and pause times to 0
+    document.getElementById('holdTime').value = 0;
+    document.getElementById('pauseTime').value = 0;
+
+    // Uncheck the hold and pause checkboxes
+    document.getElementById('holdCheck').checked = false;
+    document.getElementById('pauseCheck').checked = false;
+
+    updateAvgCyclesPerMinute();
+}
+
+function setBoxBreathing() {
+    document.getElementById('inTime').value = 4;
+    document.getElementById('holdTime').value = 4;
+    document.getElementById('outTime').value = 4;
+    document.getElementById('pauseTime').value = 4;
+
+    // Check the hold and pause checkboxes
+    document.getElementById('holdCheck').checked = true;
+    document.getElementById('pauseCheck').checked = true;
+
+    updateAvgCyclesPerMinute();
+}
+
+function setExtendedBoxBreathing() {
+    document.getElementById('inTime').value = 4;
+    document.getElementById('holdTime').value = 4;
+    document.getElementById('outTime').value = 6;
+    document.getElementById('pauseTime').value = 2;
+
+    // Check the hold and pause checkboxes
+    document.getElementById('holdCheck').checked = true;
+    document.getElementById('pauseCheck').checked = true;
+
+    updateAvgCyclesPerMinute();
+}
+
+function setExtendedExhaleBreathing() {
+    document.getElementById('inTime').value = 4;
+    document.getElementById('holdTime').value = 0;
+    document.getElementById('outTime').value = 6;
+    document.getElementById('pauseTime').value = 0;
+
+    // Uncheck the hold and pause checkboxes
+    document.getElementById('holdCheck').checked = false;
+    document.getElementById('pauseCheck').checked = false;
+
+    updateAvgCyclesPerMinute();
+}
+
+function set478Breathing() {
+    document.getElementById('inTime').value = 4;
+    document.getElementById('holdTime').value = 7;
+    document.getElementById('outTime').value = 8;
+    document.getElementById('pauseTime').value = 0;
+
+    document.getElementById('holdCheck').checked = true;
+    document.getElementById('pauseCheck').checked = false;
+
+    updateAvgCyclesPerMinute();
+}
+
 
 // Event listeners
 document.getElementById("startBtn").addEventListener("click", startBreathing);

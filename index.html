@@ -28,8 +28,19 @@
         <input type="checkbox" id="beepOnPhaseChange" value="beep" checked>
         <label for="beepOnPhaseChange">Beep on phase change</label><br>
     </div>
+    <br><br>
+    <details>
+        <summary>&nbsp;<b>Presets</b></summary>
+        <div  class="instructions">
+            <button id="perfect" style="margin: 5px;" onclick="setPerfectBreathing()">Perfect</button>
+            <button id="box" style="margin: 5px;" onclick="setBoxBreathing()">Box</button>
+            <button id="ex_box" style="margin: 5px;" onclick="setExtendedBoxBreathing()">Extended Box</button>
+            <button id="ex_exhale" style="margin: 5px;" onclick="setExtendedExhaleBreathing()">Extended Exhale</button>
+            <button id="478" style="margin: 5px;" onclick="set478Breathing()">4-7-8</button>
+        </div>
+    </details>
 
-    <br>
+    <br><br>
     <button id="startBtn">Start</button>
     <p id="avgCycles">Average Cycles per Minute: 0</p>
 
